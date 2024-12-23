@@ -1,0 +1,44 @@
+<div class="border-r-4 w-full h-full flex flex-col shadow-lg" 
+
+>
+  <img
+    [src]="product.images[0]" 
+    alt="Product Image"
+    class="w-full h-52 object-cover"
+    [routerLink]="'/product/'+product._id"
+  />
+  <div class="p-4 flex  flex-1 flex-col justify-between h-full" >
+   <div [routerLink]="'/product/'+product._id">
+    <h6 class="mb-2">{{ product.name }}</h6> <!-- Corrected the Angular interpolation syntax -->
+    <p>{{ product.shortDescription }}</p> <!-- Corrected the Angular interpolation for description -->
+   </div>
+    <div class="flex justify-between items-baseline ">
+      <div class="flex gap-2 items-baseline">
+        <span class="!text-lg text-gray-400"><s>{{'$'+product.price}}</s></span>
+        <span class="!text-xs text-orange-300"><s>{{'$'+product.discount}}% OFF</s></span>
+        <span class="!text-lg text-green-500 font-bold">{{'$'+sellingPrice}}</span>
+
+      </div>
+      <div class="flex gap-4"> 
+      <button mat-fab color="warn" (click)="addToWishList(product)" >
+        @if(isInWishList(product)){
+          <mat-icon class="text-red-500">favorite</mat-icon>
+        }@else{
+          <mat-icon class="text-red-500">favorite_border</mat-icon>
+
+        }</button>
+      <button mat-fab color="primary" (click)="addToCart(product)" > 
+        @if(isProductInCart(product._id!)){
+        <mat-icon>remove_shopping_cart</mat-icon>
+        }@else{
+
+        <mat-icon>add_shopping_cart</mat-icon>
+        }
+      </button>
+    </div>
+      
+
+      <!-- <button mat-flat-button color="primary">Add to Cart</button> Corrected button syntax -->
+    </div>
+  </div>
+</div>

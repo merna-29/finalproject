@@ -1,0 +1,110 @@
+@if(product){
+<div class="bg-white rounded-lg shadow-lg px-40 overflow-hidden mb-4 mt-4">
+  <!-- Main product image -->
+  <div class="flex">
+    <div class="w-5/12">
+      <div class="flex flex-col gap-2">
+        <img
+          [src]="mainImage"
+          class="w-3/12 h-96 shadow"
+          alt="Main product image"
+        />
+        <!-- Additional images (thumbnails) -->
+        <div class="flex justify-around shadow">
+          @for(url of product.images; track $index){
+          <img
+            [src]="url"
+            class="w-full h-auto mb-2 cursor-pointer"
+            (click)="changeImage(url)"
+          />
+
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="w-7/12 p-4">
+      <h2 class="text-3xl font-bold text-gray-800 mb-2">{{ product.name }}</h2>
+      <p class="text-gray-700 mb-4">{{ product.shortDescription }}</p>
+      <div class="flex justify-between px-0 items-baseline">
+        <div class="flex gap-8">
+          <span class="!text-xl text-gray-400"
+            ><s>{{ "$" + product.price }}</s></span
+          >
+          <span class="!text-xl text-orange-300"
+            ><s>{{ "$" + product.discount }}% OFF</s></span
+          >
+          <span class="!text-xl text-green-500 font-bold">{{
+            "$" + sellingPrice
+          }}</span>
+        </div>
+
+        <div class="flex gap-8">
+          <button
+            mat-raised-button
+            color="accent"
+            class="flex items-center"
+            (click)="addToWishList(product)"
+          >
+            @if(isInWishList(product)){
+            <mat-icon class="text-red-500" >favorite</mat-icon> <span> Remove from WishList</span>
+            }@else{
+            <mat-icon class="text-red-500">favorite_border</mat-icon>Add to WishList }
+          </button>
+          @if(isProductInCart(product._id!)){
+            <button mat-raised-button color="primary" class="shadow"  (click)="addToCart(product)"> <mat-icon>remove_shopping_cart</mat-icon> Remove From Cart</button>
+          }@else{
+            <button mat-raised-button color="primary" class="shadow"  (click)="addToCart(product)"> <mat-icon>add_shopping_cart</mat-icon> Add to Cart</button>
+
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-4 mb-4">
+    <!-- Product Details -->
+    <div class="border-t border-gray-200 pt-4">
+      <h3 class="text-lg font-semibold text-gray-800 mb-2">Product Details</h3>
+      <pre>{{ product.description }}</pre>
+    </div>
+
+    @if(similarProducts.length){
+    <div class="my-4">
+      <h4 class="text-2xl font-bold">Similar Products</h4>
+      <div class="flex flex-wrap flex justify-between gap-2">
+        @for(product of similarProducts; track $index){
+        <div class="w-3/12 shadow">
+          <app-product-card [product]="product"></app-product-card>
+        </div>
+        }
+      </div>
+    </div>
+    }
+
+    <h3 class="text-lg font-semibold text-gray-800 mb-4">Product Reviews</h3>
+
+    <!-- Individual Review -->
+    <div class="border-t border-gray-200 py-4">
+      <div class="flex items-center mb-2">
+        <!-- Reviewer info -->
+        <div class="flex items-center space-x-4">
+          <div class="rounded-full">
+            <!-- User's avatar or icon (optional) -->
+            <img src="path_to_avatar_image" alt="Avatar" class="rounded-full" />
+          </div>
+          <p class="text-gray-800 font-semibold">John Doe</p>
+          <p class="text-sm text-gray-600">5 stars</p>
+        </div>
+      </div>
+      <!-- Review content -->
+      <p class="text-gray-700">
+        This is an excellent product. Highly recommend!
+      </p>
+    </div>
+  </div>
+</div>
+
+}@else{
+<h2>Loading...</h2>
+}
